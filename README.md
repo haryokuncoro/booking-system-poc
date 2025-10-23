@@ -1,4 +1,4 @@
-# 📌 Booking System POC with Kafka + SSE + DB Lock
+# Booking System POC with Kafka + SSE + DB Lock
 
 ## 1. **Deskripsi Sistem**
 
