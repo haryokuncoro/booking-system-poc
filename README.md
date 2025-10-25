@@ -1,33 +1,34 @@
+
 # Booking System POC with Kafka + SSE + DB Lock
 
-## 1. **Deskripsi Sistem**
+## 1. **System Description**
 
-Sistem ini adalah POC **Booking System** yang aman dari **double booking**, scalable, dan user-friendly:
+This is a POC **Booking System** designed to be **safe from double booking**, scalable, and user-friendly:
 
-* **Async Booking**: request booking masuk ke **Kafka queue**
-* **DB Lock**: menggunakan **pessimistic lock / optimistic lock** untuk mencegah race condition
-* **Real-time status**: user mendapat update via **SSE**
+* **Async Booking**: booking requests are sent to a **Kafka queue**
+* **DB Lock**: uses **pessimistic lock / optimistic lock** to prevent race conditions
+* **Real-time Status**: users receive updates via **SSE**
 
 ---
 
 ## 2. **Tech Stack**
 
 * Java 17 + Spring Boot 3
-* Spring Data JPA + MySQL (H2 untuk testing)
+* Spring Data JPA + MySQL (H2 for testing)
 * Kafka + Zookeeper
-* SSE (Server-Sent Events) untuk real-time status
+* SSE (Server-Sent Events) for real-time status
 
 ---
 
-## 3. **Cara Test Race Condition**
+## 3. **How to Test Race Conditions**
 
-1. **Setup Produk dengan stok rendah**:
+1. **Setup a product with low stock**:
 
 ```sql
 INSERT INTO product(name, stock, price) VALUES ('Ticket A', 5, 100000);
 ```
 
-2. **Simulasikan banyak request bersamaan**:
+2. **Simulate multiple concurrent requests**:
 
 * **Bash/cURL**:
 
@@ -38,8 +39,8 @@ done
 wait
 ```
 
-3. **Periksa hasil**:
+3. **Check the results**:
 
-* Database → stok tidak minus, status booking SUCCESS/FAILED sesuai
-* Kafka consumer logs → proses satu per satu
-* SSE → real-time status update
+* Database → stock does not go negative, booking status SUCCESS/FAILED as expected
+* Kafka consumer logs → processes requests one by one
+* SSE → real-time status updates
